@@ -20,6 +20,8 @@ async function run(){
 
 await client.connect()
 const toolCollection = client.db('manufacturing-tools').collection('tools');
+const orderCollection = client.db('manufacturing-tools').collection('orders');
+
 
 
 // load all tool
@@ -30,6 +32,15 @@ app.get('/tool', async(req, res)=>{
   res.send(tools);
  
 });
+
+// load order data to db
+
+app.post('/order', async(req, res) =>{
+  const order = req.body;
+  const result = await orderCollection.insertOne(order);
+  res.send(result);
+  
+})
 
 
 // load a specific tool
