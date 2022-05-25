@@ -62,6 +62,8 @@ app.post('/order', async(req, res) =>{
 
 app.get('/order', async(req, res) =>{
   const email = req.query.email;
+  const authorization = req.headers.authorization ;
+  console.log(authorization);
   const query = {email: email} ;
  const orders = await orderCollection.find(query).toArray() ;
  res.send(orders) ;
