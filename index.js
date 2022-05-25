@@ -21,6 +21,7 @@ async function run(){
 await client.connect()
 const toolCollection = client.db('manufacturing-tools').collection('tools');
 const orderCollection = client.db('manufacturing-tools').collection('orders');
+const allUserCollection = client.db('manufacturing-tools').collection('users');
 
 
 
@@ -33,13 +34,22 @@ app.get('/tool', async(req, res)=>{
  
 });
 
-// load order data to db
+// post order data to db
 
 app.post('/order', async(req, res) =>{
   const order = req.body;
   const result = await orderCollection.insertOne(order);
   res.send(result);
   
+})
+
+// get order from db
+
+app.get('/order', async(req, res) =>{
+  const email = req.query.email;
+  const query = {email: email} ;
+ const orders = await orderCollection.find(query).toArray() ;
+ res.send(orders) ;
 })
 
 
