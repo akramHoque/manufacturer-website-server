@@ -64,6 +64,14 @@ app.get('/user',async(req, res) => {
   res.send(users) ;
 })
 
+app.get('/admin/:email' , async(req, res) =>{
+  const email = req.params.email ;
+  const user = await allUserCollection.findOne({email: email});
+  const isAdmin = user.role === 'admin' ;
+  res.send({admin: isAdmin})
+})
+
+
 app.put('/user/admin/:email', verifyJWT, async(req, res) =>{
   const email = req.params.email;
  const initiator = req.decoded.email;
