@@ -59,12 +59,30 @@ app.get('/tool', async(req, res)=>{
 
 // load users
 
-app.get('/user', verifyJWT, async(req, res) => {
+app.get('/user',async(req, res) => {
   const users = await allUserCollection.find().toArray() ;
   res.send(users) ;
 })
 
-
+app.put('/user/admin/:email', verifyJWT, async(req, res) =>{
+  const email = req.params.email;
+ const initiator = req.decoded.email;
+ const initiatorAccoutFind = await allUserCollection.findOne({email: initiator});
+ if(initiatorAccoutFind.role === 'admin'){
+  const filter = {email:email};
+ 
+  const updatedDoc = {
+    $set: {role:'admin'},
+  };
+  const result = await allUserCollection.updateOne(filter, updatedDoc);
+  
+  res.send(result) ;
+ }
+ else{
+   res.status(403).send({message: 'Forbidden'})
+ }
+  
+})
 
 
 
