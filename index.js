@@ -45,17 +45,25 @@ await client.connect()
 const toolCollection = client.db('manufacturing-tools').collection('tools');
 const orderCollection = client.db('manufacturing-tools').collection('orders');
 const allUserCollection = client.db('manufacturing-tools').collection('users');
+const productCollection = client.db('manufacturing-tools').collection('products');
 
 
 
 // load all tool
 app.get('/tool', async(req, res)=>{
   const query = {};
-  const cursor = toolCollection.find(query);
+  const cursor = toolCollection.find(query).project({name: 1});
   const tools = await cursor.toArray() ;
   res.send(tools);
  
 });
+
+// post the add products
+app.post('/product',verifyJWT, verifyAdmin, async(req, res)=>{
+  const product = req.body;
+  const result = await productCollection.insertOne(product);
+  res.send(result);
+})
 
 // load users
 
