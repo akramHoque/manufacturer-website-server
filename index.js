@@ -153,6 +153,16 @@ app.delete('/product/:email',verifyJWT, verifyAdmin, async(req, res) =>{
 
       })
 
+
+
+      // get specipic order for payment
+
+      app.get('/order/:id', verifyJWT, async(req, res) =>{
+        const id = req.params.id ;
+        const query = {_id: ObjectId(id)};
+        const order = await orderCollection.findOne(query) ;
+        res.send(order);
+      })
       // get order from db
 
       app.get('/order', verifyJWT, async (req, res) => {
