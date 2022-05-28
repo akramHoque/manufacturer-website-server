@@ -202,8 +202,13 @@ app.delete('/product/:email',verifyJWT, verifyAdmin, async(req, res) =>{
 
 run().catch(console.dir);
 
+// test 
   app.get('/', (req, res) => {
     res.send('Hello from assignment 12!')
+  })
+
+  app.get('/hero' , (req, res) => {
+    res.send('Heo ku works')
   })
 
   app.listen(port, () => {
